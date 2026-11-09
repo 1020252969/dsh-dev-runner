@@ -1,0 +1,49 @@
+# dsh-dev-runner bundle patch.
+#
+# Inserts one host row that consumes `webServer` (its own `/dev-runner/api`
+# prefix) and `subprocess` (the public child-process seam). It publishes no
+# service of its own and patches no other plugin's files, so an upstream plugin
+# upgrade cannot remove it.
+#
+# TWO PLACES HOLD THE PROJECT TABLE, and the store file wins:
+#
+#   1. <DSH_HOME>/.dev-runner/projects.json  — written by the sidebar panel
+#   2. the `projects` array below             — used until that file exists
+#
+# `GET /dev-runner/api/status` reports which one is live (`store`,
+# `store-empty` or `config`), so a table that ignores this file is never a
+# mystery. Delete the store file to come back here.
+#
+# EVERY project below is an example. Replace them with your own: this plugin
+# carries no knowledge of any particular stack. `Discover projects` in the panel
+# proposes entries with the evidence behind each field, which is the quickest
+# way to fill this in. The shape is
+#
+#   - id: <unique id, used by the API and by dependsOn>
+#     name: <label shown in the panel>
+#     cwd: <absolute directory the commands run in>
+#     command: <the long-running command>
+#     args: <optional; appended to the command>
+#     env: { <NAME>: <value> }      # optional; only these reach the child
+#     role: backend|frontend|service|infra   # optional; display and ordering
+#     framework: <free-form label>           # optional; e.g. spring, uni-app
+#     readyPort: <optional; the panel waits until this port answers>
+#     readyUrl: <optional; HTTP readiness, takes precedence over readyPort>
+#     readyTimeoutMs: <optional; default 120000>
+#     stopGraceMs: <optional; default 8000>
+#     autoRestart: <optional; default false>
+#     restartDelayMs: <optional; default 1000>
+#     dependsOn: [<ids that must already be running>]
+#     before:                       # optional pre-launch steps, run in order
+#       - name: <label>
+#         command: <one-shot command>
+#         expect: <optional; required substring in the output>
+#         timeoutMs: <optional; default 120000>
+#         continueOnError: <optional; default false>
+- insert:
+    - id: dev-runner
+      name: 'dsh-dev-runner'
+      config:
+        # How deep `Discover projects` walks when the panel does not say.
+        discoverDepth: 2
+        projects: []

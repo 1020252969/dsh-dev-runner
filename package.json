@@ -1,0 +1,75 @@
+{
+  "name": "dsh-dev-runner",
+  "version": "0.3.2",
+  "description": "One-click start for a whole dev stack: discover projects and their run commands, orchestrate a backend plus any number of frontends, and follow every log from the right sidebar.",
+  "keywords": [
+    "dsh-plugin",
+    "dev-server",
+    "orchestration",
+    "sidebar",
+    "spring-boot",
+    "vite"
+  ],
+  "license": "MIT",
+  "author": "三刀流索隆 <1020252969@qq.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1020252969/dsh-dev-runner.git"
+  },
+  "homepage": "https://github.com/1020252969/dsh-dev-runner#readme",
+  "bugs": {
+    "url": "https://github.com/1020252969/dsh-dev-runner/issues"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./assets/*": "./assets/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/discover.js",
+    "lib/store.js",
+    "cordis.patch.yml",
+    "locale/en.json",
+    "locale/zh.json",
+    "icon.svg",
+    "assets/icon-180.png",
+    "assets/icon-96.png",
+    "README.md",
+    "docs-zh-CN.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "dsh": ">=0.2.0-rc.2 || >=0.2.1-rc.2 || >=0.2.2-alpha.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/schemastery": "^3.18.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/schemastery": "^3.18.4"
+  },
+  "scripts": {
+    "test": "node test/run-all.mjs",
+    "test:discovery": "node test/discover.spec.mjs",
+    "test:host": "node test/host.spec.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-sidebar-right"
+      ]
+    }
+  }
+}

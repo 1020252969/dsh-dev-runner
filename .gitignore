@@ -1,0 +1,11 @@
+# Dependencies are installed per profile; the peer is resolved by the host.
+node_modules/
+
+# `npm pack` writes the tarball next to this file; it is a build artifact.
+*.tgz
+
+# Local noise
+*.log
+.DS_Store
+Thumbs.db
+coverage/
